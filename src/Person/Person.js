@@ -1,6 +1,7 @@
 import React from 'react';
 import cssClasses from './Person.css'; //in order to import the styling from the Person.css file; it is not automatically included
 //import Radium from 'radium';
+//test
 
 const person = (props) => {
     // const myStyle = {
