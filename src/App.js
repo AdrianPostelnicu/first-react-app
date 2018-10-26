@@ -3,6 +3,7 @@ import cssClasses from './App.css'; //this is how we can JS object containing th
 import Person from './Person/Person';
 //get rid of Radium to learn css modules
 //import Radium, { StyleRoot} from 'radium';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = 
@@ -100,13 +101,17 @@ class App extends Component {
         <div> 
           {this.state.persons.map((person, index) => {
             //rendering lists common pattern by using the map function of JS
-            return <Person 
+
+            //ErrorBpundary is a high order component 
+            //the key must be moved tot he outer element that we map in the map method
+            return <ErrorBoundary key={person.id}> 
+              <Person 
               click={() => this.deletePersonHandler(index)}
               name={person.name} 
               age={person.age}
-              key={person.id}
               changed={(event) => {this.nameChangedHandler(event, person.id)}} 
               changedAge={(event) => {this.ageChangedHandler(event, person.id)}}/>
+              </ErrorBoundary>
           })}
       </div> 
       );
