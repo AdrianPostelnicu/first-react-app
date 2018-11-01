@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import cssClasses from './Person.css'; //in order to import the styling from the Person.css file; it is not automatically included
 
-const person = (props) => {
-    return (
-        <div className={cssClasses.Person} > 
-            <p onClick={props.click}>Hi. I am {props.name} and I am {props.age} years old!</p>
-            <p>{props.children}</p>
-            <input type='text' onChange={props.changed} defaultValue={props.name}/>
-            <input type='number' onChange={props.changedAge} defaultValue={props.age}/>
-        </div>
-    )
+class Person extends Component {
+    constructor(props) {
+        super(props);
+        console.log('[Person.js] Inside contructor.')
+      }
+      
+      componentWillMount() {
+        console.log('[Person.js] Inside componentWillMount()');
+      }
+    
+      componentDidMount() {
+        console.log('[Person.js] Inside componentDidMount()');
+      }
+    render () {
+        console.log('[Person.js] Inside render()');
+        return (
+            <div className={cssClasses.Person} > 
+                <p onClick={this.props.click}>Hi. I am {this.props.name} and I am {this.props.age} years old!</p>
+                <p>{this.props.children}</p>
+                <input type='text' onChange={this.props.changed} defaultValue={this.props.name}/>
+                <input type='number' onChange={this.props.changedAge} defaultValue={this.props.age}/>
+            </div>
+        )
+    }
 }
-export default person;
+
+
+export default Person;

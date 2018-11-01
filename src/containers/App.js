@@ -4,18 +4,53 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
-  state = 
+  constructor(props) {
+    super(props);
+    this.state = 
     //only available in classes that extend Component from React; 
     //still should use functions as components in order to not have to manipulate the state
-    {
-      persons: [
-        { id: 100, name: "Max", age: 28 },
-        { id: 200, name: "Manu", age: 29 },
-        { id: 300, name: "Stephanie", age: 26 }
-      ],
-      otherState: 'some other value',
-      showPersons: false
-    }
+      {
+        persons: [
+          { id: 100, name: "Max", age: 28 },
+          { id: 200, name: "Manu", age: 29 },
+          { id: 300, name: "Stephanie", age: 26 }
+        ],
+        otherState: 'some other value',
+        showPersons: false
+      }
+    console.log('[App.js] Inside contructor.')
+  }
+  
+  componentWillMount() {
+    console.log('[App.js] Inside componentWillMount()');
+  }
+
+  componentDidMount() {
+    console.log('[App.js] Inside componentDidMount()');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[Update App.js] Inside shouldComponentUpdate', nextProps, nextState);
+    //here you can decide wether or not the update process should continue and be reflected in the DOM
+    //you can check the received props and state and decide based on that
+    //if you know that it should not trigger the DOM update based on the received pros and state you should return false
+    return nextState.persons !== this.state.persons ||
+      nextState.showPersons !== this.state.showPersons;
+    //if we use PureComponent from React instead of Component to extend our class then the check is done by default and 
+    //we do not need this lifecycle hook anymore - it knows by default to check for updates and return true or false 
+    //depending on having changes or not
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    //this will run only if the shouldComponentUpdate returned TRUE
+    console.log('[Update App.js] Inside componentWillUpdate', nextProps, nextState);
+
+  }
+
+  componentDidUpdate() {
+    //this will run only if the shouldComponentUpdate returned TRUE
+    console.log('[Update App.js] Inside componentDidUpdate', this.props, this.state);
+  }
 
     nameChangedHandler = (event, id) => {
       const personIndex = this.state.persons.findIndex(p => {
@@ -60,6 +95,7 @@ class App extends Component {
       this.setState({showPersons: !doesShow});
     }
   render() { 
+    console.log('[App.js] Inside render()');
     let persons = null;
 
     if(this.state.showPersons) {
@@ -72,6 +108,7 @@ class App extends Component {
 
     return (
         <div className={cssClasses.App}>
+          <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
           <Cockpit 
             appTitle={this.props.title}
             showPersons={this.state.showPersons}
