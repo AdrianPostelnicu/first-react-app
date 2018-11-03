@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import cssClasses from './App.css'; //this is how we can JS object containing the CSS classes as properties; magic fdone by css loader that transforms the css file into an object
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import Aux from '../hoc/Aux';
+import withClass from '../hoc/withClass';
 
 class App extends Component {
   constructor(props) {
@@ -107,7 +109,7 @@ class App extends Component {
     }
 
     return (
-        <div className={cssClasses.App}>
+        <Aux>
           <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
           <Cockpit 
             appTitle={this.props.title}
@@ -116,7 +118,7 @@ class App extends Component {
             clicked={this.togglePersonsHandler}
           />
           {persons}
-        </div>
+        </Aux>
     );
 
     //the JSX above is actually compiling to the below one
@@ -129,4 +131,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withClass(App, cssClasses.App);
