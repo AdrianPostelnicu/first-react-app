@@ -18,7 +18,8 @@ class App extends Component {
           { id: 300, name: "Stephanie", age: 26 }
         ],
         otherState: 'some other value',
-        showPersons: false
+        showPersons: false,
+        toggleClickedCounter: 0
       }
     console.log('[App.js] Inside contructor.')
   }
@@ -78,7 +79,7 @@ class App extends Component {
         return p.id === id;
       });
       const person = {...this.state.persons[personIndex]};
-      person.age = event.target.value;
+      person.age = Number(event.target.value);
       const persons = [...this.state.persons];
       persons[personIndex] = person;
       this.setState( {persons: persons});
@@ -94,7 +95,18 @@ class App extends Component {
 
     togglePersonsHandler = () => {
       const doesShow = this.state.showPersons;
-      this.setState({showPersons: !doesShow});
+      //instead of updating the state directly via setState we use a function that receives 2 arguments (prevState, props)
+      //it will return the object altering the state, meaning, exactly what setState needs as an argument
+      //BUT, the computation is not done on the present state, but on the previous one and it CANNOT be mutated from anywhere else
+      //BEST PRACTICE to mutate the state if you have the danger of interfering with other state versions
+      this.setState( (prevState, props) => {
+        return {
+          showPersons: !doesShow, 
+          toggleClickedCounter: prevState.toggleClickedCounter + 1
+        }
+        //toggleClickedCounter: this.state.toggleClickedCounter + 1
+        //the this.state (used above) might not be the one expected, because it can get updated at the same time in different part of the app
+      } );
     }
   render() { 
     console.log('[App.js] Inside render()');
