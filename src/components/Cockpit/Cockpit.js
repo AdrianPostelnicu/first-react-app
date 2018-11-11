@@ -3,14 +3,14 @@ import cssClasses from './Cockpit.css';
 import Aux from '../../hoc/Aux';
 
 const cockpit = ( props ) => {
-    let assignedClasses = [];
-    let btnClass = cssClasses.Button;
+  const assignedClasses = [];
+  let btnClass = cssClasses.Button;
 
-    if (props.showPersons) {
-        btnClass = [cssClasses.Button, cssClasses.Red].join(' ');
-    }
+  if (props.showPersons) {
+    btnClass = [cssClasses.Button, cssClasses.Red].join(' ');
+  }
 
-    if(props.persons.length <= 2) {
+  if(props.persons.length <= 2) {
       assignedClasses.push(cssClasses.red); // class = ['red']
     }
     if(props.persons.length <=1) {
